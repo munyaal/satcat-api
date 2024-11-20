@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  mongo-db:
+    image: mongo:8.0.3-noble
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+  api:
+    build: .
+    command: npm run start:dev
+    ports:
+      - 3000:3000
+    environment:
+      - DATABASE_URL=mongodb://mongoadmin:secret@mongo-db:27017
+      - DB_NAME=mongo-db
