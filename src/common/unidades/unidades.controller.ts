@@ -1,22 +1,25 @@
-import { Controller, Delete, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { UnidadesService } from './unidades.service';
 import { UnidadesDto } from '../dtos/unidades.dto';
-import { UnidadesSeeder } from 'src/database/seeder/unidades.seeder';
+import { PagingDto } from '../dtos';
+import { PagingResponse } from '../types';
+import { Unidades } from '../schemas/unidades.schema';
 
 @Controller('unidades')
 export class UnidadesController {
-  constructor(
-    private readonly service: UnidadesService,
-    private readonly seeder: UnidadesSeeder,
-  ) {}
+  constructor(private readonly service: UnidadesService) {}
 
   @Get()
-  async findAll(): Promise<{ message: string; data: UnidadesDto[] }> {
-    const data = await this.service.findAll();
-    return {
-      message: 'Unidades métricas encontradas',
-      data,
-    };
+  @UsePipes(new ValidationPipe({ transform: true }))
+  async findAll(@Query() params: PagingDto): Promise<PagingResponse<Unidades>> {
+    return this.service.findAll(params);
   }
 
   @Get(':claveUnidad')
@@ -28,11 +31,5 @@ export class UnidadesController {
       message: `Unidad métrica con ID "${claveUnidad}" encontrada`,
       data,
     };
-  }
-
-  @Delete('drop')
-  async dropUnidades(): Promise<{ message: string }> {
-    await this.seeder.drop();
-    return { message: 'Datos de la colección Unidades eliminados' };
   }
 }

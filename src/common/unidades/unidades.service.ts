@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Unidades } from '../schemas/unidades.schema';
 import { Model } from 'mongoose';
 import { UnidadesDto } from '../dtos/unidades.dto';
+import { PagingDto } from '../dtos';
+import { PagingResponse } from '../types';
 
 @Injectable()
 export class UnidadesService {
@@ -11,9 +13,33 @@ export class UnidadesService {
     private readonly unidadesModel: Model<Unidades>,
   ) {}
 
-  async findAll(): Promise<UnidadesDto[]> {
-    const metrics = await this.unidadesModel.find().exec();
-    return metrics.map((metric) => this.mapToDto(metric));
+  async findAll(params: PagingDto): Promise<PagingResponse<Unidades>> {
+    const { limit = 10, page = 1 } = params;
+
+    const skip = (page - 1) * limit;
+
+    const [{ data, total }] = await this.unidadesModel
+      .aggregate([
+        {
+          $facet: {
+            data: [{ $skip: skip }, { $limit: limit }],
+            total: [{ $count: 'count' }],
+          },
+        },
+      ])
+      .exec();
+
+    const records = total.length > 0 ? total[0].count : 0;
+
+    const totalPage = Math.ceil(records / limit);
+
+    return {
+      page,
+      limit,
+      records,
+      totalPage,
+      data,
+    };
   }
 
   async findOne(claveUnidad: string): Promise<UnidadesDto> {
