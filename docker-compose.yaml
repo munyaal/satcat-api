@@ -13,6 +13,8 @@ services:
   api:
     build: .
     command: npm run start:dev
+    volumes:
+      - ./src:/usr/app/src
     ports:
       - 3000:3000
     environment:
