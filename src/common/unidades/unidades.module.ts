@@ -3,6 +3,8 @@ import { UnidadesService } from './unidades.service';
 import { UnidadesController } from './unidades.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Unidades,UnidadesSchema} from '../schemas/unidades.schema';
+import { UnidadesSeeder } from 'src/database/seeder/unidades.seeder';
+
 
 @Module({
   imports:[
@@ -11,6 +13,6 @@ import { Unidades,UnidadesSchema} from '../schemas/unidades.schema';
     ])
   ],
   controllers: [UnidadesController],
-  providers: [UnidadesService],
+  providers: [UnidadesService, UnidadesSeeder],
 })
 export class UnidadesModule {}

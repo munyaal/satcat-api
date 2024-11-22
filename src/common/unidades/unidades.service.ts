@@ -16,11 +16,11 @@ export class UnidadesService {
     return metrics.map((metric) => this.mapToDto(metric));
   }
 
-  async findOne(id: string): Promise<UnidadesDto> {
-    const metric = await this.unidadesModel.findById(id).exec();
+  async findOne(claveUnidad: string): Promise<UnidadesDto> {
+    const metric = await this.unidadesModel.findOne({ claveUnidad }).exec();
     if (!metric) {
       throw new NotFoundException(
-        `Unidad de medida con ID "${id}" no encontrado`,
+        `Unidad de medida con Clave Unidad "${claveUnidad}" no encontrado`,
       );
     }
     return this.mapToDto(metric);

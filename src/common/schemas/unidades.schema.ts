@@ -20,13 +20,13 @@ export class Unidades extends Document {
   simbolo: string;
 
   @Prop({ type:Date, required: true, default:Date.now })
-  createAt: Date;
+  createAt?: Date;
 
   @Prop({ type: Date, required: true, default:Date.now })
-  updateAt: Date;
+  updateAt?: Date;
 
   @Prop({ type:Date, default: null })
-  deleteAt: Date;
+  deleteAt?: Date;
 }
 
   export const UnidadesSchema = SchemaFactory.createForClass(Unidades);
