@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { configuration, validationSchema, ConfigKey } from './config';
+import { configuration, validationSchema } from './config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { mongooseConfig } from './database/mongoose.config';
 import { UnidadesModule } from './common/unidades/unidades.module';
@@ -14,9 +12,7 @@ import { UnidadesModule } from './common/unidades/unidades.module';
       validationSchema: validationSchema,
     }),
     MongooseModule.forRootAsync(mongooseConfig),
-    UnidadesModule
+    UnidadesModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

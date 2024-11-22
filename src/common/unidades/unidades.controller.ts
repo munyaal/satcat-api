@@ -3,7 +3,6 @@ import { UnidadesService } from './unidades.service';
 import { UnidadesDto } from '../dtos/unidades.dto';
 import { UnidadesSeeder } from 'src/database/seeder/unidades.seeder';
 
-
 @Controller('unidades')
 export class UnidadesController {
   constructor(
@@ -19,6 +18,7 @@ export class UnidadesController {
       data,
     };
   }
+
   @Get(':claveUnidad')
   async findOne(
     @Param('claveUnidad') claveUnidad: string,
@@ -29,6 +29,7 @@ export class UnidadesController {
       data,
     };
   }
+
   @Delete('drop')
   async dropUnidades(): Promise<{ message: string }> {
     await this.seeder.drop();

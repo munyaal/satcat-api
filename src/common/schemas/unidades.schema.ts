@@ -1,13 +1,12 @@
 import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-
-@Schema({timestamps: true})
+@Schema({ timestamps: true })
 export class Unidades extends Document {
   @Prop({ required: true, unique: true })
   claveUnidad: string;
 
-  @Prop({ required: true})
+  @Prop({ required: true })
   nombre: string;
 
   @Prop()
@@ -19,38 +18,37 @@ export class Unidades extends Document {
   @Prop()
   simbolo: string;
 
-  @Prop({ type:Date, required: true, default:Date.now })
+  @Prop({ type: Date, required: true, default: Date.now })
   createAt?: Date;
 
-  @Prop({ type: Date, required: true, default:Date.now })
+  @Prop({ type: Date, required: true, default: Date.now })
   updateAt?: Date;
 
-  @Prop({ type:Date, default: null })
+  @Prop({ type: Date, default: null })
   deleteAt?: Date;
 }
 
-  export const UnidadesSchema = SchemaFactory.createForClass(Unidades);
+export const UnidadesSchema = SchemaFactory.createForClass(Unidades);
 
-  UnidadesSchema.pre('countDocuments', function () {
-    if (!this.getFilter().hasOwnProperty('deleteAt')) {
-      this.where({ deleteAt: null });
-    }
-  });
+UnidadesSchema.pre('countDocuments', function () {
+  if (!this.getFilter().hasOwnProperty('deleteAt')) {
+    this.where({ deleteAt: null });
+  }
+});
 
-  UnidadesSchema.pre('find', function () {
-    if (!this.getFilter().hasOwnProperty('deleteAt')) {
-      this.where({ deleteAt: null });
-    }
-  });
+UnidadesSchema.pre('find', function () {
+  if (!this.getFilter().hasOwnProperty('deleteAt')) {
+    this.where({ deleteAt: null });
+  }
+});
 
-  UnidadesSchema.pre('findOne', function () {
-    if (!this.getFilter().hasOwnProperty('deleteAt')) {
-      this.where({ deleteAt: null });
-    }
-  });
+UnidadesSchema.pre('findOne', function () {
+  if (!this.getFilter().hasOwnProperty('deleteAt')) {
+    this.where({ deleteAt: null });
+  }
+});
 
-  export const UnidadesFeature: ModelDefinition = {
-    name: Unidades.name,
-    schema: UnidadesSchema,
-  };
-
+export const UnidadesFeature: ModelDefinition = {
+  name: Unidades.name,
+  schema: UnidadesSchema,
+};

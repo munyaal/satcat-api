@@ -5,6 +5,8 @@ services:
     image: mongo:8.0.3-noble
     ports:
       - 27017:27017
+    volumes:
+      - ./data:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=mongoadmin
       - MONGO_INITDB_ROOT_PASSWORD=secret

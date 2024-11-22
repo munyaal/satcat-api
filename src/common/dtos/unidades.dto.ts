@@ -1,6 +1,5 @@
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-
 export class UnidadesDto {
   @IsString()
   @IsNotEmpty({ message: 'El campo Clave Unidad no puede estar vacío.' })
